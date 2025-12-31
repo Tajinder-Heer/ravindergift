@@ -3,57 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026: Our Next Chapter</title>
+    <title>2026: For Ravinder</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { margin: 0; background: #0f172a; color: #f8fafc; font-family: 'Georgia', serif; overflow-x: hidden; text-align: center; scroll-behavior: smooth; }
-        .stars { position: fixed; top:0; left:0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); z-index: -1; opacity: 0.5; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow-x: hidden; scroll-behavior: smooth; background: #0b1021; }
+
+        /* LOCAL ANIMATED BACKGROUND */
+        .animated-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            /* This looks for the file named bg.gif in your GitHub folder */
+            background: url('Starry Night over the Rhône by Vincent Van Gogh, animation by Andrey Zakirzyanov.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -2;
+        }
+
+        /* Dark overlay to ensure Punjabi text is readable */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: -1;
+        }
+
+        body { color: #f8fafc; font-family: 'Georgia', serif; text-align: center; }
+
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-        h1 { font-size: 3rem; color: #fb7185; text-shadow: 0 0 20px rgba(251,113,133,0.5); margin-bottom: 10px; transition: 1s; }
-        .memory-box { padding: 80px 20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); display: none; }
+        
+        h1 { 
+            font-size: clamp(1.8rem, 5vw, 3rem); 
+            color: #ffffff; 
+            text-shadow: 0 0 20px #fb7185, 0 0 40px #000; 
+            margin-bottom: 20px; 
+            line-height: 1.4;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            max-width: 650px;
+            line-height: 1.8;
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin: 0 auto;
+        }
+        
+        #timer { 
+            font-size: 1.8rem; 
+            margin: 25px 0; 
+            color: #fffcfc; 
+            font-family: 'Courier New', monospace; 
+            font-weight: bold;
+            background-color:#a1050532;
+        }
+
+        .btn { 
+            background: #fb7185; border: none; padding: 18px 45px; color: white; border-radius: 50px; 
+            font-size: 1.3em; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+        }
+        .btn:hover { transform: scale(1.1); background: #f43f5e; box-shadow: 0 0 30px #fb7185; }
+
+        .memory-box { padding: 80px 20px; background: rgba(10, 15, 30, 0.95); backdrop-filter: blur(15px); display: none; }
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 40px auto; }
-        .photo-frame { background: white; padding: 15px 15px 45px 15px; transform: rotate(-3deg); transition: 0.4s; box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
-        .photo-frame:nth-child(even) { transform: rotate(3deg); }
-        .photo-frame img { width: 100%; height: 300px; object-fit: cover; filter: sepia(20%); }
-        .caption { color: #334155; margin-top: 15px; font-family: 'Brush Script MT', cursive; font-size: 1.5rem; }
-        .btn { background: #fb7185; border: none; padding: 18px 45px; color: white; border-radius: 50px; font-size: 1.3em; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(251,113,133,0.4); }
-        .btn:hover { background: #f43f5e; transform: scale(1.1); box-shadow: 0 0 30px #fb7185; }
-        #timer { font-size: 1.6rem; margin: 25px 0; color: #fda4af; font-family: monospace; }
-        .love-footer { margin-top: 60px; font-size: 2rem; color: #fb7185; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        
+        .photo-frame { 
+            background: white; padding: 12px 12px 50px 12px; transform: rotate(-2deg); 
+            transition: 0.4s; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+        .photo-frame:nth-child(even) { transform: rotate(2deg); }
+        .photo-frame img { width: 100%; height: 350px; object-fit: cover; }
+        
+        .caption { color: #1e293b; margin-top: 15px; font-family: 'Brush Script MT', cursive; font-size: 1.8rem; }
+        
+        .love-footer { margin-top: 60px; font-size: 2rem; color: #fb7185; font-weight: bold; }
     </style>
 </head>
-<body>
-    <div class="stars"></div>
+<body style="background: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmVyajBjMWJtNnJiMzllNWJmczdvbXIzbG81dHpzc3R5cGp5NG55bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1xop19O53rXLWqlxhe/giphy.gif') no-repeat center center fixed; background-size: cover;">
+
+    <div class="animated-bg"></div>
+    <div class="overlay"></div>
 
     <audio id="bgMusic" loop>
         <source src="https://www.chosic.com/wp-content/uploads/2021/07/Rain-on-the-Window-Piano-Music.mp3" type="audio/mpeg">
     </audio>
 
     <section class="hero">
-        <h1 id="mainTitle">To My Beloved Wife</h1>
-        <p>"Even if the world ends, I'll be by your side."</p>
+        <h1 id="mainTitle">ਮੇਰੀ ਪਿਆਰੀ ਜੀਵਨ ਤੇ ਮਕਸਦ ਦੀ ਸਾਥਣ ਰਵਿੰਦਰ</h1>
+        <p class="message">"ਨਵੇਂ ਸਾਲ ਦਾ ਸੂਰਜ ਜੋ ਪੁਰਾਣਾ ਵੀ ਹੋਵੇਗਾ ਤੇ ਨਵਾਂ ਵੀ! ਬਿਲਕੁਲ ਸਾਡੇ ਵਾਂਗ, ਜਿਹਨਾਂ ਚ ਚੰਗਾ/ਬੁਰਾ ਨਵਾਂ ਵੀ ਹੈ ਤੇ ਪੁਰਾਣਾ ਵੀ!"</p>
         <div id="timer">00d 00h 00m 00s</div>
-        <button class="btn" onclick="startSurprise()">Press for Our 2026 Magic</button>
+        <button class="btn" onclick="startSurprise()">2026 ਲਈ ਦੇ ਤੁਹਫ਼ੇ ਕਲਿੱਕ ਰਵਿੰਦਰ </button>
     </section>
 
     <section class="memory-box" id="memories">
-        <h2 style="font-size: 2.5rem;">Our Journey Together</h2>
+        <h2 style="font-size: 2.8rem; color: #fb7185;">ਸਾਡਾ ਸਾਂਝਾ ਸਫ਼ਰ</h2>
         <div class="gallery">
-            <div class="photo-frame">
-                <img src="https://images.unsplash.com/photo-1516589174184-c68526514b0c?q=80&w=500" alt="1">
-                <div class="caption">Our Beautiful Past</div>
-            </div>
-            <div class="photo-frame">
-                <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=500" alt="2">
-                <div class="caption">Our Happy Present</div>
-            </div>
-            <div class="photo-frame">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500" alt="3">
-                <div class="caption">Our Eternal Future</div>
-            </div>
+            <div class="photo-frame"><img src="1.jpg" alt="1"><div class="caption">ਅਤੀਤ ਦੀ ਯਾਦਗਾਰ</div></div>
+            <div class="photo-frame"><img src="3.jpg" alt="2"><div class="caption">ਅੱਜ ਦੀ ਖੁਸ਼ੀ</div></div>
+            <div class="photo-frame"><img src="5.jpg" alt="3"><div class="caption">ਅਸਲੀ ਭਵਿੱਖ</div></div>
         </div>
-        <div class="love-footer">❤️ Happy New Year 2026! ❤️</div>
+        <div class="love-footer">❤️ ਨਵਾਂ ਸਾਲ ਮੁਬਰਕ ਮੇਰੀ ਪਿਆਰੀ! ਇਹ ਕੋਡਿੰਗ ਤੇਰੇ ਨਾਮ ❤️</div>
     </section>
 
     <script>
@@ -61,12 +113,7 @@
             const target = new Date("Jan 1, 2026 00:00:00").getTime();
             const now = new Date().getTime();
             const diff = target - now;
-            
-            if (diff < 0) {
-                document.getElementById('timer').innerText = "IT IS TIME!";
-                return;
-            }
-
+            if (diff <= 0) { document.getElementById('timer').innerText = "HAPPY NEW YEAR 2026!"; return; }
             const d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5), m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1000);
             document.getElementById('timer').innerText = `${d}d ${h}h ${m}m ${s}s`;
         }
@@ -74,21 +121,10 @@
         updateTimer();
 
         function startSurprise() {
-            // Play the music
-            const audio = document.getElementById('bgMusic');
-            audio.play().catch(e => console.log("Audio need interaction first"));
-
-            // Fireworks/Confetti
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            
-            // UI Changes
-            document.getElementById('mainTitle').innerText = "Happy New Year, My Life Partner!";
+            document.getElementById('bgMusic').play().catch(e => console.log("Music Ready"));
+            confetti({ particleCount: 250, spread: 100, origin: { y: 0.6 } });
             document.getElementById('memories').style.display = 'block';
-            
-            // Smooth Scroll to memories
-            setTimeout(() => {
-                document.getElementById('memories').scrollIntoView({ behavior: 'smooth' });
-            }, 500);
+            setTimeout(() => { document.getElementById('memories').scrollIntoView({ behavior: 'smooth' }); }, 500);
         }
     </script>
 </body>
