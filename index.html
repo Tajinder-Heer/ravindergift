@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026: Our Next Chapter</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body { margin: 0; background: #0f172a; color: #f8fafc; font-family: 'Georgia', serif; overflow-x: hidden; text-align: center; scroll-behavior: smooth; }
+        .stars { position: fixed; top:0; left:0; width: 100%; height: 100%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); z-index: -1; opacity: 0.5; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        h1 { font-size: 3rem; color: #fb7185; text-shadow: 0 0 20px rgba(251,113,133,0.5); margin-bottom: 10px; transition: 1s; }
+        .memory-box { padding: 80px 20px; background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); display: none; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 40px auto; }
+        .photo-frame { background: white; padding: 15px 15px 45px 15px; transform: rotate(-3deg); transition: 0.4s; box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+        .photo-frame:nth-child(even) { transform: rotate(3deg); }
+        .photo-frame img { width: 100%; height: 300px; object-fit: cover; filter: sepia(20%); }
+        .caption { color: #334155; margin-top: 15px; font-family: 'Brush Script MT', cursive; font-size: 1.5rem; }
+        .btn { background: #fb7185; border: none; padding: 18px 45px; color: white; border-radius: 50px; font-size: 1.3em; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(251,113,133,0.4); }
+        .btn:hover { background: #f43f5e; transform: scale(1.1); box-shadow: 0 0 30px #fb7185; }
+        #timer { font-size: 1.6rem; margin: 25px 0; color: #fda4af; font-family: monospace; }
+        .love-footer { margin-top: 60px; font-size: 2rem; color: #fb7185; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/07/Rain-on-the-Window-Piano-Music.mp3" type="audio/mpeg">
+    </audio>
+
+    <section class="hero">
+        <h1 id="mainTitle">To My Beloved Wife</h1>
+        <p>"Even if the world ends, I'll be by your side."</p>
+        <div id="timer">00d 00h 00m 00s</div>
+        <button class="btn" onclick="startSurprise()">Press for Our 2026 Magic</button>
+    </section>
+
+    <section class="memory-box" id="memories">
+        <h2 style="font-size: 2.5rem;">Our Journey Together</h2>
+        <div class="gallery">
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1516589174184-c68526514b0c?q=80&w=500" alt="1">
+                <div class="caption">Our Beautiful Past</div>
+            </div>
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?q=80&w=500" alt="2">
+                <div class="caption">Our Happy Present</div>
+            </div>
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=500" alt="3">
+                <div class="caption">Our Eternal Future</div>
+            </div>
+        </div>
+        <div class="love-footer">❤️ Happy New Year 2026! ❤️</div>
+    </section>
+
+    <script>
+        function updateTimer() {
+            const target = new Date("Jan 1, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            
+            if (diff < 0) {
+                document.getElementById('timer').innerText = "IT IS TIME!";
+                return;
+            }
+
+            const d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5), m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1000);
+            document.getElementById('timer').innerText = `${d}d ${h}h ${m}m ${s}s`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        function startSurprise() {
+            // Play the music
+            const audio = document.getElementById('bgMusic');
+            audio.play().catch(e => console.log("Audio need interaction first"));
+
+            // Fireworks/Confetti
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            
+            // UI Changes
+            document.getElementById('mainTitle').innerText = "Happy New Year, My Life Partner!";
+            document.getElementById('memories').style.display = 'block';
+            
+            // Smooth Scroll to memories
+            setTimeout(() => {
+                document.getElementById('memories').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+    </script>
+</body>
+</html>
